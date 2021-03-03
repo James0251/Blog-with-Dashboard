@@ -14,6 +14,7 @@ class Role extends Model {
             ->belongsToMany(Permission::class,'role_permission')
             ->withTimestamps();
     }
+
     /**
      * Связь модели Role с моделью User, позволяет получить
      * всех пользователей с этой ролью
