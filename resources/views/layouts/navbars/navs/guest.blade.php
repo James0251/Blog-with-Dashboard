@@ -1,7 +1,7 @@
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
     <!-- Логотип и кнопка «Гамбургер» -->
-    <a class="navbar-brand" href="/">Блог</a>
+    <a class="navbar-brand" href="/">Involta</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse"
             data-target="#navbar-blog" aria-controls="navbar-blog"
             aria-expanded="false" aria-label="Toggle navigation">
@@ -12,13 +12,13 @@
         <!-- Этот блок расположен слева -->
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link text-white" href="#">Блог</a>
+                <a class="nav-link" href="#">Блог</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white" href="#">Теги</a>
+                <a class="nav-link" href="#">Теги</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white" href="#">Контакты</a>
+                <a class="nav-link" href="#">Контакты</a>
             </li>
         </ul>
         <!-- Этот блок расположен посередине -->
@@ -32,17 +32,19 @@
         <ul class="navbar-nav ml-auto">
             @guest
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="{{ route('login') }}">Войти</a>
+                    <a class="nav-link" href="{{ route('login') }}">Войти</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="{{ route('register') }}">Регистрация</a>
+                    <a class="nav-link" href="{{ route('register') }}">Регистрация</a>
                 </li>
             @else
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="{{ route('user.index') }}">{{ auth()->user()->name }}</a>
+                    <a class="nav-link" href="{{ route('user.index') }}">{{ auth()->user()->name }}</a>
                 </li>
                 <li class="nav-item">
-{{--                    <a class="nav-link text-white" href="{{ route('logout') }}">Выйти</a>--}}
+                    <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault();
+                        document.getElementById('logout-form').submit();">Выйти</a>
+
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         {{ csrf_field() }}
                     </form>
