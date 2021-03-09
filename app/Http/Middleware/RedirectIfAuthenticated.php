@@ -16,12 +16,12 @@ class RedirectIfAuthenticated
      * @param  string|null  $guard
      * @return mixed
      */
-    public function handle($request, Closure $next, $guard = null)
-    {
+    public function handle($request, Closure $next, $guard = null) {
         if (Auth::guard($guard)->check()) {
-            return redirect(RouteServiceProvider::HOME);
+            // аутентифицированных пользователей отправляем
+            // на главную страницу личного кабинета
+            return redirect()->route('user.index');
         }
-
         return $next($request);
     }
 }
