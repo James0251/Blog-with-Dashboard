@@ -163,6 +163,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         App\Providers\RoleServiceProvider::class,
         App\Providers\PermissionServiceProvider::class,
+        App\Providers\ComposerServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
 
         /*
