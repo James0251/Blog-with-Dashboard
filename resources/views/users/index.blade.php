@@ -14,7 +14,7 @@
 <body>
 <div class="container-fluid">
 
-    @include('layouts.navbars.navs.guest')
+    @include('users.nav')
 
     <div class="row">
         <div class="col-md-3">
@@ -50,9 +50,7 @@
 
         </div>
 
-        <div class="container-fluid">
-            @include('layouts.footers.guest')
-        </div>
+        @include('users/footer')
 
     </div>
 </div>

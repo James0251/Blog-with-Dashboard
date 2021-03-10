@@ -1,56 +1,29 @@
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
-    <!-- Логотип и кнопка «Гамбургер» -->
-    <a class="navbar-brand" href="/">Involta</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse"
-            data-target="#navbar-blog" aria-controls="navbar-blog"
-            aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <!-- Основная часть меню (может содержать ссылки, формы и прочее) -->
-    <div class="collapse navbar-collapse" id="navbar-blog">
-        <!-- Этот блок расположен слева -->
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="#">Блог</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Теги</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Контакты</a>
-            </li>
-        </ul>
-        <!-- Этот блок расположен посередине -->
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search"
-                   placeholder="Поиск по блогу" aria-label="Search">
-            <button class="btn btn-outline-info my-2 my-sm-0"
-                    type="submit">Искать</button>
-        </form>
-        <!-- Этот блок расположен справа -->
-        <ul class="navbar-nav ml-auto">
-            @guest
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('login') }}">Войти</a>
+<nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top text-white">
+    <div class="container">
+        <div class="navbar-wrapper">
+            <a class="navbar-brand" href="{{ route('home') }}">{{ $title ?? '' }}</a>
+        </div>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end">
+            <ul class="navbar-nav">
+                <li class="nav-item{{ $activePage ?? '' == 'register' ? ' active' : '' }}">
+                    <a href="{{ route('register') }}" class="nav-link">
+                        <i class="material-icons">person_add</i> {{ __('Register') }}
+                    </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('register') }}">Регистрация</a>
+                <li class="nav-item{{ $activePage ?? '' == 'login' ? ' active' : '' }}">
+                    <a href="{{ route('login') }}" class="nav-link">
+                        <i class="material-icons">fingerprint</i> {{ __('Login') }}
+                    </a>
                 </li>
-            @else
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('user.index') }}">{{ auth()->user()->name }}</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();">Выйти</a>
-
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                        {{ csrf_field() }}
-                    </form>
-                </li>
-            @endif
-        </ul>
+            </ul>
+        </div>
     </div>
 </nav>
 <!-- End Navbar -->

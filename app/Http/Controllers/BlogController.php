@@ -9,11 +9,15 @@ use App\User;
 use Illuminate\Http\Request;
 
 class BlogController extends Controller {
+
     /**
      * Главная страница блога (список всех постов)
      */
     public function index() {
-        $posts = Post::orderBy('created_at', 'desc')->paginate(5);
+        $posts = Post::published()
+            ->with('user')->with('tags')
+            ->orderByDesc('created_at')
+            ->paginate();
         return view('blog.index', compact('posts'));
     }
 
@@ -21,16 +25,23 @@ class BlogController extends Controller {
      * Страница просмотра отдельного поста блога
      */
     public function post(Post $post) {
-        return view('blog.post', compact('post'));
+        $comments = $post->comments()
+            ->published()
+            ->orderBy('created_at')
+            ->paginate();
+        return view('blog.post', compact('post', 'comments'));
     }
 
     /**
      * Список постов блога выбранной категории
      */
     public function category(Category $category) {
-        $posts = $category->posts()
-            ->orderBy('created_at', 'desc')
-            ->paginate(5);
+        $descendants = array_merge(Category::descendants($category->id), [$category->id]);
+        $posts = Post::whereIn('category_id', $descendants)
+            ->published()
+            ->with('user')->with('tags')
+            ->orderByDesc('created_at')
+            ->paginate();
         return view('blog.category', compact('category', 'posts'));
     }
 
@@ -39,8 +50,10 @@ class BlogController extends Controller {
      */
     public function author(User $user) {
         $posts = $user->posts()
-            ->orderBy('created_at', 'desc')
-            ->paginate(5);
+            ->published()
+            ->with('user')->with('tags')
+            ->orderByDesc('created_at')
+            ->paginate();
         return view('blog.author', compact('user', 'posts'));
     }
 
@@ -49,8 +62,10 @@ class BlogController extends Controller {
      */
     public function tag(Tag $tag) {
         $posts = $tag->posts()
-            ->orderBy('created_at', 'desc')
-            ->paginate(5);
+            ->published()
+            ->with('user')->with('tags')
+            ->orderByDesc('created_at')
+            ->paginate();
         return view('blog.tag', compact('tag', 'posts'));
     }
 }

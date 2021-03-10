@@ -6,19 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model {
     /**
-     * Связь модели Category с моделью Post, позволяет получить
-     * все посты, размещенные в текущей категории
+     * Связь модели Category с моделью Post, позволяет получить все
+     * посты, размещенные в текущей категори
      */
     public function posts() {
         return $this->hasMany(Post::class);
-    }
-
-    /**
-     * Связь модели Category с моделью Category, позволяет получить все
-     * дочерние категории текущей категории
-     */
-    public function children() {
-        return $this->hasMany(Category::class, 'parent_id');
     }
 
     /**
@@ -30,24 +22,26 @@ class Category extends Model {
     }
 
     /**
-     * Возвращает список корневых категорий каталога товаров
+     * Связь модели Category с моделью Category, позволяет получить все
+     * дочерние категории текущей категории
      */
-    public static function roots() {
-        return self::where('parent_id', 0)->with('children')->get();
+    public function children() {
+        return $this->hasMany(Category::class, 'parent_id');
     }
 
     /**
-     * Связь модели Category с моделью Category, позволяет получить всех
-     * потомков текущей категории
+     * Возвращает массив идентификаторов всех потомков категории
      */
-    public function descendants() {
-        return $this->hasMany(Category::class, 'parent_id')->with('descendants');
-    }
-
-    /**
-     * Возвращает список всех категорий блога в виде дерева
-     */
-    public static function hierarchy() {
-        return self::where('parent_id', 0)->with('descendants')->get();
+    public static function descendants($parent) {
+        static $items = null;
+        if (is_null($items)) {
+            $items = self::all();
+        }
+        $ids = [];
+        foreach ($items->where('parent_id', $parent) as $item) {
+            $ids[] = $item->id;
+            $ids = array_merge($ids, self::descendants($item->id));
+        }
+        return $ids;
     }
 }
